@@ -1,0 +1,75 @@
+<div class="onboarding-container">
+  <div class="onboarding-card">
+    <div class="onboarding-header">
+      <h1>Welcome to Crypto Advisor!</h1>
+      <p>Let's personalize your experience with a quick setup</p>
+    </div>
+    
+    <form [formGroup]="onboardingForm" (ngSubmit)="onSubmit()" class="onboarding-form">
+      <div class="form-section">
+        <h3>What crypto assets are you interested in?</h3>
+        <div class="checkbox-grid">
+          <label *ngFor="let crypto of availableCryptos" class="checkbox-item">
+            <input
+              type="checkbox"
+              [value]="crypto.id"
+              (change)="onCryptoChange($event)"
+            />
+            <span class="checkmark"></span>
+            <span class="crypto-name">{{ crypto.name }} ({{ crypto.symbol }})</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>What type of investor are you?</h3>
+        <div class="radio-group">
+          <label *ngFor="let type of investorTypes" class="radio-item">
+            <input
+              type="radio"
+              name="investorType"
+              [value]="type.value"
+              formControlName="investorType"
+            />
+            <span class="radio-checkmark"></span>
+            <div class="investor-info">
+              <span class="investor-name">{{ type.name }}</span>
+              <span class="investor-description">{{ type.description }}</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>What kind of content would you like to see?</h3>
+        <div class="checkbox-grid">
+          <label *ngFor="let content of contentTypes" class="checkbox-item">
+            <input
+              type="checkbox"
+              [value]="content.value"
+              (change)="onContentTypeChange($event)"
+            />
+            <span class="checkmark"></span>
+            <span class="content-name">{{ content.name }}</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="!isFormValid() || isLoading"
+      >
+        <span *ngIf="isLoading">Setting up your dashboard...</span>
+        <span *ngIf="!isLoading">Complete Setup</span>
+      </button>
+    </form>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,155 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="header-content">
+      <h1>Welcome back, {{ currentUser?.name }}!</h1>
+      <p>Here's your personalized crypto insight for today</p>
+    </div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </header>
+
+  <div class="dashboard-content" *ngIf="dashboardData">
+    <!-- AI Insight Section -->
+    <div class="insight-section" *ngIf="dashboardData.aiInsight">
+      <div class="section-header">
+        <h2>AI Insight of the Day</h2>
+      </div>
+      <div class="insight-card">
+        <h3>{{ dashboardData.aiInsight.title }}</h3>
+        <p>{{ dashboardData.aiInsight.content }}</p>
+        <div class="feedback-buttons">
+          <button 
+            class="feedback-btn" 
+            [class.active]="dashboardData.aiInsight.userFeedback === 1"
+            (click)="submitFeedback('ai_insight', dashboardData.aiInsight.id, true)">
+            👍
+          </button>
+          <button 
+            class="feedback-btn" 
+            [class.active]="dashboardData.aiInsight.userFeedback === -1"
+            (click)="submitFeedback('ai_insight', dashboardData.aiInsight.id, false)">
+            👎
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Market News Section -->
+    <div class="news-section" *ngIf="dashboardData.news.length > 0">
+      <div class="section-header">
+        <h2>📰 Market News</h2>
+        <button 
+          *ngIf="hasMoreNews" 
+          class="view-more-btn"
+          (click)="toggleNewsView()">
+          {{ showAllNews ? 'View Less' : 'View More' }} 
+          ({{ showAllNews ? newsLimit : dashboardData.news.length }})
+        </button>
+      </div>
+      <div class="news-grid">
+        <div class="news-card" *ngFor="let newsItem of displayedNews">
+          <h3>{{ newsItem.title }}</h3>
+          <div class="news-meta">
+            <span class="news-source">{{ newsItem.source }}</span>
+            <span class="news-date">{{ formatDate(newsItem.publishedAt) }}</span>
+          </div>
+          <div class="news-tags" *ngIf="newsItem.tags.length > 0">
+            <span class="tag" *ngFor="let tag of newsItem.tags">{{ tag }}</span>
+          </div>
+          <div class="news-actions">
+            <div class="feedback-buttons">
+              <button 
+                class="feedback-btn" 
+                [class.active]="newsItem.userFeedback === 1"
+                (click)="submitFeedback('news', newsItem.id, true)">
+                👍
+              </button>
+              <button 
+                class="feedback-btn" 
+                [class.active]="newsItem.userFeedback === -1"
+                (click)="submitFeedback('news', newsItem.id, false)">
+                👎
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row (Prices + Meme) -->
+    <div class="bottom-row">
+      <!-- Coin Prices Section -->
+      <div class="prices-section" *ngIf="dashboardData.prices.length > 0">
+        <div class="section-header">
+          <h2>💰 Coin Prices</h2>
+        </div>
+        <div class="prices-grid">
+          <div class="price-card" *ngFor="let coin of dashboardData.prices">
+            <div class="coin-header">
+              <img [src]="coin.image || 'https://ui-avatars.com/api/?name=' + coin.symbol + '&size=40&background=1a1a1a&color=ffffff'" [alt]="coin.name" class="coin-image" (error)="onImageError($event, coin.symbol)">
+              <div class="coin-info">
+                <h3>{{ coin.name }}</h3>
+                <span class="coin-symbol">{{ coin.symbol }}</span>
+              </div>
+            </div>
+            <div class="price-info">
+              <div class="current-price">${{ formatPrice(coin.currentPrice) }}</div>
+              <div class="price-change" [class.positive]="coin.priceChangePercentage24h > 0" [class.negative]="coin.priceChangePercentage24h < 0">
+                {{ coin.priceChangePercentage24h > 0 ? '+' : '' }}{{ coin.priceChangePercentage24h.toFixed(2) }}%
+              </div>
+            </div>
+            <div class="feedback-buttons">
+              <button 
+                class="feedback-btn" 
+                [class.active]="coin.userFeedback === 1"
+                (click)="submitFeedback('price', coin.id, true)">
+                👍
+              </button>
+              <button 
+                class="feedback-btn" 
+                [class.active]="coin.userFeedback === -1"
+                (click)="submitFeedback('price', coin.id, false)">
+                👎
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meme Section -->
+      <div class="meme-section" *ngIf="dashboardData.meme">
+        <div class="section-header">
+          <h2>😂 Crypto Meme of the Day</h2>
+        </div>
+        <div class="meme-card">
+          <img [src]="dashboardData.meme.imageUrl" [alt]="dashboardData.meme.title" class="meme-image">
+          <h3>{{ dashboardData.meme.title }}</h3>
+          <div class="feedback-buttons">
+            <button 
+              class="feedback-btn" 
+              [class.active]="dashboardData.meme.userFeedback === 1"
+              (click)="submitFeedback('meme', dashboardData.meme.id, true)">
+              👍
+            </button>
+            <button 
+              class="feedback-btn" 
+              [class.active]="dashboardData.meme.userFeedback === -1"
+              (click)="submitFeedback('meme', dashboardData.meme.id, false)">
+              👎
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading your personalized dashboard...</p>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+    <button class="retry-btn" (click)="loadDashboard()">Retry</button>
+  </div>
+</div>
+
