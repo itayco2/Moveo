@@ -69,7 +69,7 @@ namespace CryptoBackend.Services
             {
                 Id = coin.Id,
                 Symbol = coin.Symbol.ToUpper(),
-                Name = coin.Name,
+                Name = coin.Name, // Use API name directly - no conversion needed
                 CurrentPrice = coin.CurrentPrice,
                 PriceChange24h = coin.PriceChange24h,
                 PriceChangePercentage24h = coin.PriceChangePercentage24h,
@@ -83,34 +83,19 @@ namespace CryptoBackend.Services
             {
                 Id = coinId,
                 Symbol = coinId.ToUpper(),
-                Name = GetCoinDisplayName(coinId),
+                Name = coinId, // Use coinId directly - no conversion needed
                 CurrentPrice = price.Usd,
-                PriceChange24h = 0, // Not available in simple price endpoint
+                PriceChange24h = 0, 
                 PriceChangePercentage24h = price.Usd24HChange ?? 0,
                 Image = GetCoinImageUrl(coinId)
             };
         }
 
-        private static string GetCoinDisplayName(string coinId)
-        {
-            return coinId switch
-            {
-                "bitcoin" => "Bitcoin",
-                "ethereum" => "Ethereum", 
-                "cardano" => "Cardano",
-                _ => coinId
-            };
-        }
 
         private static string GetCoinImageUrl(string coinId)
         {
-            return coinId switch
-            {
-                "bitcoin" => "https://assets.coingecko.com/coins/images/1/large/bitcoin.png",
-                "ethereum" => "https://assets.coingecko.com/coins/images/279/large/ethereum.png",
-                "cardano" => "https://assets.coingecko.com/coins/images/975/large/cardano.png",
-                _ => $"https://ui-avatars.com/api/?name={coinId}&size=40&background=1a1a1a&color=ffffff"
-            };
+            // Generate placeholder for any coin that doesn't have an API image
+            return $"https://ui-avatars.com/api/?name={coinId}&size=40&background=1a1a1a&color=ffffff";
         }
 
         private class CoinGeckoResponse

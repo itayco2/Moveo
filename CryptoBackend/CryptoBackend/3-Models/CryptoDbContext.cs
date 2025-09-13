@@ -11,7 +11,6 @@ namespace CryptoBackend.Models
         public DbSet<User> Users { get; set; }
         public DbSet<UserPreferences> UserPreferences { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
-        public DbSet<DailyContent> DailyContents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,14 +47,10 @@ namespace CryptoBackend.Models
                 entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
 
-            // Configure DailyContent entity
-            modelBuilder.Entity<DailyContent>(entity =>
-            {
-                entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            });
         }
     }
 }
+
 
 
 

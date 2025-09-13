@@ -31,15 +31,8 @@ namespace CryptoBackend.Services
                     }
                 }
                 
-                // No fallback - return empty if AI service fails
-                return new AiInsightDto
-                {
-                    Id = $"ai_insight_{DateTime.UtcNow:yyyy-MM-dd}_{investorType}_{string.Join("_", userCryptos).GetHashCode()}",
-                    Title = "AI Insight Unavailable",
-                    Content = "AI service is currently unavailable. Please try again later.",
-                    Tags = userCryptos,
-                    GeneratedAt = DateTime.UtcNow
-                };
+                // No API key or API call failed - throw to be caught by catch block
+                throw new InvalidOperationException("AI service unavailable");
             }
             catch (Exception)
             {

@@ -161,7 +161,7 @@ namespace CryptoBackend.Controllers
         {
             try
             {
-                var news = await _cryptoPanicService.GetLatestNewsAsync(interestedCryptos, 5);
+                var news = await _cryptoPanicService.GetLatestNewsAsync(interestedCryptos, 6);
                 
                 // Add user feedback to news items
                 foreach (var newsItem in news)
@@ -183,7 +183,7 @@ namespace CryptoBackend.Controllers
             try
             {
                 // Map display names to CoinGecko API IDs
-                var coinGeckoIds = interestedCryptos.Select(MapToCoinGeckoId).Where(id => !string.IsNullOrEmpty(id)).ToList();
+                var coinGeckoIds = interestedCryptos.Select(MapDisplayNameToCoinGeckoId).Where(id => !string.IsNullOrEmpty(id)).ToList();
                 
                 // Get prices for user's selected coins
                 var prices = await _coinGeckoService.GetCoinPricesAsync(coinGeckoIds);
@@ -239,17 +239,18 @@ namespace CryptoBackend.Controllers
             }
         }
 
-        private static string MapToCoinGeckoId(string displayName)
+        private static string MapDisplayNameToCoinGeckoId(string displayName)
         {
             return displayName.ToLower() switch
             {
                 "bitcoin" => "bitcoin",
                 "ethereum" => "ethereum",
                 "cardano" => "cardano",
-                "binance coin" => "binancecoin",
+                "bnb" => "binancecoin",
                 "chainlink" => "chainlink",
                 "solana" => "solana",
                 "polkadot" => "polkadot",
+                "polygon" => "polygon",
                 "litecoin" => "litecoin",
                 "bitcoin cash" => "bitcoin-cash",
                 "stellar" => "stellar",

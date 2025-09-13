@@ -23,7 +23,25 @@ namespace CryptoBackend.Services
             {
                 // Get API key and use correct v2 format
                 var apiKey = _configuration["CryptoPanic:ApiKey"];
-                var response = await _httpClient.GetAsync($"posts/?auth_token={apiKey}&public=true&limit=3");
+                
+                // Build query parameters
+                var queryParams = new List<string>
+                {
+                    $"auth_token={apiKey}",
+                    "public=true",
+                    $"limit={limit}"
+                };
+                
+                // Add crypto symbols filter if provided
+                if (cryptoSymbols?.Any() == true)
+                {
+                    var symbolsParam = string.Join(",", cryptoSymbols);
+                    queryParams.Add($"currencies={symbolsParam}");
+                }
+                
+                var requestUrl = $"posts/?{string.Join("&", queryParams)}";
+                
+                var response = await _httpClient.GetAsync(requestUrl);
                 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -36,10 +54,14 @@ namespace CryptoBackend.Services
                     PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
                 });
 
-                return newsResponse?.Results?.Select(MapToNewsItemDto).ToList() ?? new List<NewsItemDto>();
+                var newsItems = newsResponse?.Results?.Select(MapToNewsItemDto).ToList() ?? new List<NewsItemDto>();
+                
+                return newsItems;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                // Log the error for debugging (in production, use proper logging)
+                Console.WriteLine($"CryptoPanic API error: {ex.Message}");
                 return new List<NewsItemDto>();
             }
         }
@@ -50,11 +72,17 @@ namespace CryptoBackend.Services
             {
                 Id = post.Id.ToString(),
                 Title = post.Title,
-                Url = post.Url,
+                Url = IsValidUrl(post.Url) ? post.Url : "#",
                 Source = post.Source?.Title ?? "Unknown",
                 PublishedAt = post.PublishedAt,
                 Tags = post.Currencies?.Select(c => c.Code).ToList() ?? new List<string>()
             };
+        }
+
+        private static bool IsValidUrl(string url)
+        {
+            return !string.IsNullOrEmpty(url) && 
+                   (url.StartsWith("http://") || url.StartsWith("https://"));
         }
 
 

@@ -20,9 +20,6 @@ namespace CryptoBackend.Models
         [Column(TypeName = "text")]
         public string ContentId { get; set; } = string.Empty; // Identifier for the specific content
 
-        [Column(TypeName = "text")]
-        public string ContentData { get; set; } = string.Empty; // JSON data of the content
-
         [Required]
         public bool IsPositive { get; set; } // true for thumbs up, false for thumbs down
 

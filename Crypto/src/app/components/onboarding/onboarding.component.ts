@@ -74,9 +74,13 @@ export class OnboardingComponent {
   onCryptoChange(event: any): void {
     const value = event.target.value;
     if (event.target.checked) {
-      this.selectedCryptos.push(value);
+      // Store display name instead of ID
+      const crypto = this.availableCryptos.find(c => c.id === value);
+      this.selectedCryptos.push(crypto?.name || value);
     } else {
-      const index = this.selectedCryptos.indexOf(value);
+      const crypto = this.availableCryptos.find(c => c.id === value);
+      const displayName = crypto?.name || value;
+      const index = this.selectedCryptos.indexOf(displayName);
       if (index > -1) {
         this.selectedCryptos.splice(index, 1);
       }

@@ -35,13 +35,6 @@ namespace CryptoBackend.Utils
             CreateMap<FeedbackRequestDto, Feedback>()
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => DateTime.UtcNow));
 
-            // DailyContent mappings
-            CreateMap<DailyContent, NewsItemDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.Source, opt => opt.MapFrom(src => "Cached"))
-                .ForMember(dest => dest.PublishedAt, opt => opt.MapFrom(src => src.PublishedAt.ToString("O")))
-                .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => 
-                    DeserializeStringList(src.Tags)));
         }
 
         private static List<string> DeserializeStringList(string json)

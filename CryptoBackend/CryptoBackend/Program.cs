@@ -22,7 +22,7 @@ namespace CryptoBackend
             builder.Services.AddControllers();
 
             // Add AutoMapper
-            builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+            builder.Services.AddAutoMapper(typeof(Program));
 
             // Add Rate Limiting
             builder.Services.AddRateLimiter(options =>
