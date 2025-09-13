@@ -38,12 +38,7 @@ namespace CryptoBackend.Controllers
                     return BadRequest(new { message = "User with this email already exists" });
                 }
 
-                // Validate password strength
-                var passwordValidation = ValidatePassword(request.Password);
-                if (!passwordValidation.IsValid)
-                {
-                    return BadRequest(new { message = passwordValidation.ErrorMessage });
-                }
+                // Password validation is now handled by FluentValidation
 
                 // Create new user using AutoMapper
                 var user = _mapper.Map<User>(request);
@@ -65,6 +60,7 @@ namespace CryptoBackend.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error during signup for email: {Email}", request.Email);
                 return StatusCode(500, new { message = "Internal server error" });
             }
         }
@@ -101,6 +97,7 @@ namespace CryptoBackend.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error during login for email: {Email}", request.Email);
                 return StatusCode(500, new { message = "Internal server error" });
             }
         }
@@ -140,38 +137,10 @@ namespace CryptoBackend.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error getting current user");
                 return StatusCode(500, new { message = "Internal server error" });
             }
         }
 
-        private static (bool IsValid, string ErrorMessage) ValidatePassword(string password)
-        {
-            if (string.IsNullOrEmpty(password))
-            {
-                return (false, "Password is required");
-            }
-
-            if (password.Length < 6)
-            {
-                return (false, "Password must be at least 6 characters long");
-            }
-
-            if (!password.Any(char.IsUpper))
-            {
-                return (false, "Password must contain at least one uppercase letter");
-            }
-
-            if (!password.Any(char.IsLower))
-            {
-                return (false, "Password must contain at least one lowercase letter");
-            }
-
-            if (!password.Any(char.IsDigit))
-            {
-                return (false, "Password must contain at least one number");
-            }
-
-            return (true, string.Empty);
-        }
     }
 }

@@ -1,11 +1,11 @@
 <div class="auth-container">
-  <div class="auth-card">
+  <div class="auth-card" role="main" aria-labelledby="signup-title">
     <div class="auth-header">
-      <h1>Create Account</h1>
+      <h1 id="signup-title">Create Account</h1>
       <p>Join the crypto advisor community</p>
     </div>
     
-    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
       <div class="form-group">
         <label for="name">Full Name</label>
         <input
@@ -14,9 +14,14 @@
           formControlName="name"
           class="form-input"
           [class.error]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+          aria-describedby="name-error"
+          aria-invalid="signupForm.get('name')?.invalid"
+          autocomplete="name"
+          required
         />
-        <div class="error-message" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+        <div id="name-error" class="error-message" role="alert" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
           <span *ngIf="signupForm.get('name')?.errors?.['required']">Name is required</span>
+          <span *ngIf="signupForm.get('name')?.errors?.['minlength']">Name must be at least 4 characters</span>
         </div>
       </div>
 
@@ -28,8 +33,12 @@
           formControlName="email"
           class="form-input"
           [class.error]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+          aria-describedby="email-error"
+          aria-invalid="signupForm.get('email')?.invalid"
+          autocomplete="email"
+          required
         />
-        <div class="error-message" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+        <div id="email-error" class="error-message" role="alert" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
           <span *ngIf="signupForm.get('email')?.errors?.['required']">Email is required</span>
           <span *ngIf="signupForm.get('email')?.errors?.['email']">Please enter a valid email</span>
         </div>
@@ -43,32 +52,30 @@
           formControlName="password"
           class="form-input"
           [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+          aria-describedby="password-error"
+          aria-invalid="signupForm.get('password')?.invalid"
+          autocomplete="new-password"
+          required
         />
-        <div class="error-message" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+        <div id="password-error" class="error-message" role="alert" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
           <span *ngIf="signupForm.get('password')?.errors?.['required']">Password is required</span>
           <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
-          <span *ngIf="signupForm.get('password')?.errors?.['noUppercase']">Password must contain at least one uppercase letter</span>
-          <span *ngIf="signupForm.get('password')?.errors?.['noLowercase']">Password must contain at least one lowercase letter</span>
-          <span *ngIf="signupForm.get('password')?.errors?.['noNumber']">Password must contain at least one number</span>
         </div>
-      </div>
-
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
       </div>
 
       <button
         type="submit"
         class="btn-primary"
-        [disabled]="signupForm.invalid || isLoading"
+        [disabled]="signupForm.invalid"
+        aria-describedby="signup-description"
       >
-        <span *ngIf="isLoading">Creating account...</span>
-        <span *ngIf="!isLoading">Create Account</span>
+        Create Account
       </button>
+      <div id="signup-description" class="sr-only">Create a new account to access the crypto advisor dashboard</div>
     </form>
 
     <div class="auth-footer">
-      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+      <p>Already have an account? <a routerLink="/login" aria-label="Navigate to login page">Sign in</a></p>
     </div>
   </div>
 </div>

@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\4-services\\coingeckoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\4-services\\coingeckoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\4-services\\aiinsightservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\4-services\\aiinsightservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\5-controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\5-controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\4-services\\coingeckoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\4-services\\coingeckoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\4-services\\aiinsightservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\4-services\\aiinsightservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\3-models\\dtos\\onboardingdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -66,11 +70,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\5-Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "CryptoBackend\\5-Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\5-Controllers\\AuthController.cs",
+              "RelativeToolTip": "CryptoBackend\\5-Controllers\\AuthController.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-13T15:27:42.443Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "CoinGeckoService.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\4-Services\\CoinGeckoService.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\4-Services\\CoinGeckoService.cs",
@@ -78,37 +94,23 @@
               "RelativeToolTip": "CryptoBackend\\4-Services\\CoinGeckoService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T07:49:25.085Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-12T07:49:25.085Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\appsettings.Development.json",
               "RelativeDocumentMoniker": "CryptoBackend\\appsettings.Development.json",
               "ToolTip": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\appsettings.Development.json",
               "RelativeToolTip": "CryptoBackend\\appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-09-12T07:47:44.478Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AiInsightService.cs",
-              "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\4-Services\\AiInsightService.cs",
-              "RelativeDocumentMoniker": "CryptoBackend\\4-Services\\AiInsightService.cs",
-              "ToolTip": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\4-Services\\AiInsightService.cs",
-              "RelativeToolTip": "CryptoBackend\\4-Services\\AiInsightService.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAAACEAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-12T07:40:47.442Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "OnboardingDTOs.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\DTOs\\OnboardingDTOs.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\DTOs\\OnboardingDTOs.cs",
@@ -120,7 +122,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "DashboardDTOs.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\DTOs\\DashboardDTOs.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\DTOs\\DashboardDTOs.cs",
@@ -132,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "AuthDTOs.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\DTOs\\AuthDTOs.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\DTOs\\AuthDTOs.cs",
@@ -144,7 +146,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "UserPreferences.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\UserPreferences.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\UserPreferences.cs",
@@ -156,7 +158,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\User.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\User.cs",
@@ -168,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Feedback.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\Feedback.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\Feedback.cs",
@@ -180,7 +182,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\appsettings.json",
               "RelativeDocumentMoniker": "CryptoBackend\\appsettings.json",
@@ -188,11 +190,24 @@
               "RelativeToolTip": "CryptoBackend\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-11T11:40:01.741Z"
+              "WhenOpened": "2025-09-11T11:40:01.741Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 4,
+              "Title": "AiInsightService.cs",
+              "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\4-Services\\AiInsightService.cs",
+              "RelativeDocumentMoniker": "CryptoBackend\\4-Services\\AiInsightService.cs",
+              "ToolTip": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\4-Services\\AiInsightService.cs",
+              "RelativeToolTip": "CryptoBackend\\4-Services\\AiInsightService.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAAACEAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-12T07:40:47.442Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "CryptoDbContext.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\3-Models\\CryptoDbContext.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\3-Models\\CryptoDbContext.cs",
@@ -204,7 +219,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "AutoMapperProfile.cs",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\2-Utils\\AutoMapperProfile.cs",
               "RelativeDocumentMoniker": "CryptoBackend\\2-Utils\\AutoMapperProfile.cs",
@@ -216,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "launchSettings.json",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\Properties\\launchSettings.json",
               "RelativeDocumentMoniker": "CryptoBackend\\Properties\\launchSettings.json",
@@ -228,7 +243,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "CryptoBackend.csproj",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\CryptoBackend.csproj",
               "RelativeDocumentMoniker": "CryptoBackend\\CryptoBackend.csproj",

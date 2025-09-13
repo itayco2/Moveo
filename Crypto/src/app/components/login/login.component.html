@@ -1,11 +1,11 @@
 <div class="auth-container">
-  <div class="auth-card">
+  <div class="auth-card" role="main" aria-labelledby="login-title">
     <div class="auth-header">
-      <h1>Welcome Back</h1>
+      <h1 id="login-title">Welcome Back</h1>
       <p>Sign in to your crypto advisor account</p>
     </div>
     
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
       <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -14,8 +14,12 @@
           formControlName="email"
           class="form-input"
           [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          aria-describedby="email-error"
+          aria-invalid="loginForm.get('email')?.invalid"
+          autocomplete="email"
+          required
         />
-        <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <div id="email-error" class="error-message" role="alert" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
           <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
           <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
         </div>
@@ -29,28 +33,29 @@
           formControlName="password"
           class="form-input"
           [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          aria-describedby="password-error"
+          aria-invalid="loginForm.get('password')?.invalid"
+          autocomplete="current-password"
+          required
         />
-        <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <div id="password-error" class="error-message" role="alert" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
           <span *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</span>
         </div>
-      </div>
-
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
       </div>
 
       <button
         type="submit"
         class="btn-primary"
-        [disabled]="loginForm.invalid || isLoading"
+        [disabled]="loginForm.invalid"
+        aria-describedby="login-description"
       >
-        <span *ngIf="isLoading">Signing in...</span>
-        <span *ngIf="!isLoading">Sign In</span>
+        Sign In
       </button>
+      <div id="login-description" class="sr-only">Sign in to access your crypto advisor dashboard</div>
     </form>
 
     <div class="auth-footer">
-      <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+      <p>Don't have an account? <a routerLink="/signup" aria-label="Navigate to sign up page">Sign up</a></p>
     </div>
   </div>
 </div>

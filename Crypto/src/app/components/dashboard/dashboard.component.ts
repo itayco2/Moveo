@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
@@ -11,7 +11,8 @@ import { User } from '../../models/auth.models';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
   dashboardData: DashboardResponse | null = null;
@@ -24,7 +25,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.currentUser = this.authService.currentUserValue;
   }
@@ -41,10 +43,12 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.dashboardData = data;
         this.isLoading = false;
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.isLoading = false;
         this.errorMessage = error.error?.message || 'Failed to load dashboard. Please try again.';
+        this.cdr.markForCheck();
       }
     });
   }
@@ -56,6 +60,7 @@ export class DashboardComponent implements OnInit {
       next: () => {
         // Update the local feedback state
         this.updateLocalFeedback(contentType, contentId, isPositive);
+        this.cdr.markForCheck();
       },
       error: (error) => {
         // Handle error silently
@@ -130,5 +135,6 @@ export class DashboardComponent implements OnInit {
 
   toggleNewsView(): void {
     this.showAllNews = !this.showAllNews;
+    this.cdr.markForCheck();
   }
 }

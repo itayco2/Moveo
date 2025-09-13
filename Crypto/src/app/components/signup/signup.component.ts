@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ErrorService } from '../../services/error.service';
 
 @Component({
   selector: 'app-signup',
@@ -13,57 +14,32 @@ import { AuthService } from '../../services/auth.service';
 })
 export class SignupComponent {
   signupForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorService
   ) {
     this.signupForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(4)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6), this.passwordValidator]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onSubmit(): void {
     if (this.signupForm.valid) {
-      this.isLoading = true;
-      this.errorMessage = '';
-
       this.authService.signup(this.signupForm.value).subscribe({
         next: (response) => {
-          this.isLoading = false;
+          this.errorService.addError('Account created successfully!', 'success');
           this.router.navigate(['/onboarding']);
         },
         error: (error) => {
-          this.isLoading = false;
-          this.errorMessage = error.error?.message || 'Signup failed. Please try again.';
+          // Error is already handled by the auth service
         }
       });
     }
   }
 
-  private passwordValidator(control: any) {
-    const value = control.value;
-    if (!value) return null;
-    
-    const hasUppercase = /[A-Z]/.test(value);
-    const hasLowercase = /[a-z]/.test(value);
-    const hasNumber = /[0-9]/.test(value);
-    
-    if (!hasUppercase) {
-      return { noUppercase: true };
-    }
-    if (!hasLowercase) {
-      return { noLowercase: true };
-    }
-    if (!hasNumber) {
-      return { noNumber: true };
-    }
-    
-    return null;
-  }
 }
