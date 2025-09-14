@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://crypto-advisor-backend.onrender.com/api'
+  apiUrl: 'https://localhost:7141/api'
 };

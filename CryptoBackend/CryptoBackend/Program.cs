@@ -206,7 +206,17 @@ namespace CryptoBackend
                 using (var scope = app.Services.CreateScope())
                 {
                     var context = scope.ServiceProvider.GetRequiredService<CryptoDbContext>();
-                    context.Database.EnsureCreated();
+                    try
+                    {
+                        // Try to migrate the database
+                        context.Database.Migrate();
+                        Log.Information("Database migration completed successfully");
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Warning(ex, "Migration failed, trying EnsureCreated as fallback");
+                        context.Database.EnsureCreated();
+                    }
                 }
 
                 Log.Information("Crypto Advisor API started successfully");
