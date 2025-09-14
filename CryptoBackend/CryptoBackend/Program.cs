@@ -34,7 +34,11 @@ namespace CryptoBackend
                 builder.Host.UseSerilog();
 
                 // Core services
-                builder.Services.AddControllers();
+                builder.Services.AddControllers()
+                    .AddJsonOptions(options =>
+                    {
+                        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+                    });
                 builder.Services.AddEndpointsApiExplorer();
 
                 // Validation & Mapping

@@ -64,7 +64,7 @@ namespace CryptoBackend.Controllers
 
                 // Get user preferences (use defaults if onboarding not completed)
                 var interestedCryptos = new List<string> { "bitcoin", "ethereum" };
-                var preferredContentTypes = new List<string> { "market_news", "price_charts" };
+                var preferredContentTypes = new List<string> { "Market News", "Charts" };
                 var investorType = "HODLer";
 
                 if (user.IsOnboardingCompleted && user.UserPreferences != null)
@@ -73,6 +73,7 @@ namespace CryptoBackend.Controllers
                     preferredContentTypes = JsonSerializer.Deserialize<List<string>>(user.UserPreferences.PreferredContentTypes) ?? preferredContentTypes;
                     investorType = user.UserPreferences.InvestorType;
                 }
+
 
                 // Get user feedback for personalization
                 var userFeedback = await _context.Feedbacks
@@ -89,7 +90,7 @@ namespace CryptoBackend.Controllers
                     tasks.Add(GetNewsContentAsync(response, interestedCryptos, userFeedback));
                 }
 
-                if (preferredContentTypes.Contains("Charts") || preferredContentTypes.Contains("Prices"))
+                if (preferredContentTypes.Contains("Charts"))
                 {
                     tasks.Add(GetPriceContentAsync(response, interestedCryptos, userFeedback));
                 }

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\appsettings.production.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\appsettings.production.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\appsettings.production.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|solutionrelative:cryptobackend\\appsettings.production.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{958367D3-B5C2-4DAE-9B95-7AD82E3A7E4A}|CryptoBackend\\CryptoBackend.csproj|c:\\users\\itay7\\desktop\\moveo\\cryptobackend\\cryptobackend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -74,11 +74,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "appsettings.Production.json",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\appsettings.Production.json",
               "RelativeDocumentMoniker": "CryptoBackend\\appsettings.Production.json",
@@ -115,7 +115,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\itay7\\Desktop\\Moveo\\CryptoBackend\\CryptoBackend\\appsettings.Development.json",
               "RelativeDocumentMoniker": "CryptoBackend\\appsettings.Development.json",
@@ -208,8 +208,7 @@
               "RelativeToolTip": "CryptoBackend\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-11T11:40:01.741Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-11T11:40:01.741Z"
             },
             {
               "$type": "Document",

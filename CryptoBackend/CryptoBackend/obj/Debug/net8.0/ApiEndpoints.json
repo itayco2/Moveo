@@ -155,7 +155,7 @@
   },
   {
     "ContainingType": "CryptoBackend.Program\u002B\u003C\u003Ec",
-    "Method": "\u003CMain\u003Eb__0_11",
+    "Method": "\u003CMain\u003Eb__0_12",
     "RelativePath": "api/test",
     "HttpMethod": "GET",
     "IsController": false,
