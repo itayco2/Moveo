@@ -82,6 +82,13 @@ namespace CryptoBackend
                         var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
                             ?? new[] { "http://localhost:4200", "https://localhost:4200" };
                         
+                        // Also check environment variable for CORS origins
+                        var envOrigins = builder.Configuration["Cors__AllowedOrigins"];
+                        if (!string.IsNullOrEmpty(envOrigins))
+                        {
+                            allowedOrigins = envOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                        }
+                        
                         policy.WithOrigins(allowedOrigins)
                               .AllowAnyHeader()
                               .AllowAnyMethod()
