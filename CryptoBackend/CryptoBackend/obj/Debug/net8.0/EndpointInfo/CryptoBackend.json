@@ -141,7 +141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StringDateTime<>f__AnonymousType8"
+                  "$ref": "#/components/schemas/StringDateTime<>f__AnonymousType3"
                 }
               }
             }
@@ -555,7 +555,7 @@
         },
         "additionalProperties": false
       },
-      "StringDateTime<>f__AnonymousType8": {
+      "StringDateTime<>f__AnonymousType3": {
         "type": "object",
         "properties": {
           "message": {

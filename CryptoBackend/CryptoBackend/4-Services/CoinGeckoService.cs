@@ -30,22 +30,34 @@ namespace CryptoBackend.Services
                 var idsParam = string.Join(",", coinIds);
                 var url = $"{BASE_URL}/coins/markets?vs_currency=usd&ids={idsParam}&order=market_cap_desc&per_page=10&page=1";
 
+                Console.WriteLine($"CoinGecko API URL: {url}");
+
                 var response = await _httpClient.GetAsync(url);
+                Console.WriteLine($"CoinGecko API Response Status: {response.StatusCode}");
+                
                 if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"CoinGecko API Error: {response.StatusCode}");
                     return cachedPrices ?? new List<CoinPriceDto>();
+                }
 
                 var jsonString = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"CoinGecko API Response Length: {jsonString.Length}");
+                
                 var coinData = JsonSerializer.Deserialize<List<CoinGeckoResponse>>(jsonString);
+                Console.WriteLine($"Deserialized coin data count: {coinData?.Count ?? 0}");
 
                 var prices = coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
+                Console.WriteLine($"Mapped prices count: {prices.Count}");
 
                 // Cache for 60 seconds to avoid hitting API limits
                 _cache.Set(cacheKey, prices, TimeSpan.FromSeconds(60));
 
                 return prices;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"CoinGecko API Exception: {ex.Message}");
                 return cachedPrices ?? new List<CoinPriceDto>();
             }
         }
