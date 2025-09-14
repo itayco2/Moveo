@@ -38,11 +38,15 @@ namespace CryptoBackend.Services
                 
                 if (!response.IsSuccessStatusCode)
                 {
+                    Console.WriteLine($"CoinGecko API error: {response.StatusCode} for URL: {url}");
+                    
                     // If we have cached data, return it even if expired
                     if (_cache.TryGetValue(cacheKey, out var expiredCached))
                     {
+                        Console.WriteLine($"Returning expired cached data for {cacheKey}");
                         return expiredCached.Data;
                     }
+                    Console.WriteLine($"No cached data available for {cacheKey}");
                     return new List<CoinPriceDto>();
                 }
 
@@ -50,17 +54,21 @@ namespace CryptoBackend.Services
                 var coinData = JsonSerializer.Deserialize<List<CoinGeckoResponse>>(jsonString);
                 var result = coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
                 
+                Console.WriteLine($"Successfully retrieved {result.Count} coin prices from CoinGecko API");
+                
                 // Cache the result
                 _cache[cacheKey] = (result, DateTime.UtcNow.Add(CacheExpiry));
                 
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine($"Exception in GetCoinPricesAsync: {ex.Message}");
                 // If we have cached data, return it even if expired
                 var cacheKey = $"prices_{string.Join(",", coinIds)}";
                 if (_cache.TryGetValue(cacheKey, out var cached))
                 {
+                    Console.WriteLine($"Returning cached data from exception handler for {cacheKey}");
                     return cached.Data;
                 }
                 return new List<CoinPriceDto>();
