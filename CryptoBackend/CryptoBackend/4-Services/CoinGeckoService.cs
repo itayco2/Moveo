@@ -8,10 +8,6 @@ namespace CryptoBackend.Services
     {
         private readonly HttpClient _httpClient;
         private const string BASE_URL = "https://api.coingecko.com/api/v3";
-        
-        // Simple in-memory cache
-        private static readonly Dictionary<string, (List<CoinPriceDto> Data, DateTime Expiry)> _cache = new();
-        private static readonly TimeSpan CacheExpiry = TimeSpan.FromMinutes(5); // Cache for 5 minutes
 
         public CoinGeckoService(HttpClient httpClient)
         {
@@ -24,53 +20,22 @@ namespace CryptoBackend.Services
             try
             {
                 var idsParam = string.Join(",", coinIds);
-                var cacheKey = $"prices_{idsParam}";
-                
-                // Check cache first
-                if (_cache.TryGetValue(cacheKey, out var cached) && cached.Expiry > DateTime.UtcNow)
-                {
-                    return cached.Data;
-                }
-                
                 var url = $"{BASE_URL}/coins/markets?vs_currency=usd&ids={idsParam}&order=market_cap_desc&per_page=10&page=1";
                 
                 var response = await _httpClient.GetAsync(url);
                 
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"CoinGecko API error: {response.StatusCode} for URL: {url}");
-                    
-                    // If we have cached data, return it even if expired
-                    if (_cache.TryGetValue(cacheKey, out var expiredCached))
-                    {
-                        Console.WriteLine($"Returning expired cached data for {cacheKey}");
-                        return expiredCached.Data;
-                    }
-                    Console.WriteLine($"No cached data available for {cacheKey}");
                     return new List<CoinPriceDto>();
                 }
 
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var coinData = JsonSerializer.Deserialize<List<CoinGeckoResponse>>(jsonString);
-                var result = coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
-                
-                Console.WriteLine($"Successfully retrieved {result.Count} coin prices from CoinGecko API");
-                
-                // Cache the result
-                _cache[cacheKey] = (result, DateTime.UtcNow.Add(CacheExpiry));
-                
-                return result;
+
+                return coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"Exception in GetCoinPricesAsync: {ex.Message}");
-                // If we have cached data, return it even if expired
-                var cacheKey = $"prices_{string.Join(",", coinIds)}";
-                if (_cache.TryGetValue(cacheKey, out var cached))
-                {
-                    Console.WriteLine($"Returning cached data from exception handler for {cacheKey}");
-                    return cached.Data;
-                }
                 return new List<CoinPriceDto>();
             }
         }
@@ -79,44 +44,21 @@ namespace CryptoBackend.Services
         {
             try
             {
-                var cacheKey = $"top_{limit}";
-                
-                // Check cache first
-                if (_cache.TryGetValue(cacheKey, out var cached) && cached.Expiry > DateTime.UtcNow)
-                {
-                    return cached.Data;
-                }
-                
                 // Use the /coins/markets endpoint for full data including 24h change
                 var response = await _httpClient.GetAsync($"{BASE_URL}/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,cardano&order=market_cap_desc&per_page={limit}&page=1");
                 
                 if (!response.IsSuccessStatusCode)
                 {
-                    // If we have cached data, return it even if expired
-                    if (_cache.TryGetValue(cacheKey, out var expiredCached))
-                    {
-                        return expiredCached.Data;
-                    }
                     return new List<CoinPriceDto>();
                 }
 
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var coinData = JsonSerializer.Deserialize<List<CoinGeckoResponse>>(jsonString);
-                var result = coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
-                
-                // Cache the result
-                _cache[cacheKey] = (result, DateTime.UtcNow.Add(CacheExpiry));
-                
-                return result;
+
+                return coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
             }
             catch (Exception)
             {
-                // If we have cached data, return it even if expired
-                var cacheKey = $"top_{limit}";
-                if (_cache.TryGetValue(cacheKey, out var cached))
-                {
-                    return cached.Data;
-                }
                 return new List<CoinPriceDto>();
             }
         }
@@ -155,28 +97,6 @@ namespace CryptoBackend.Services
             // Generate placeholder for any coin that doesn't have an API image
             return $"https://ui-avatars.com/api/?name={coinId}&size=40&background=1a1a1a&color=ffffff";
         }
-        
-        private static List<CoinPriceDto> GetFallbackCoinData(List<string> coinIds)
-        {
-            // Provide basic fallback data when CoinGecko is rate-limited
-            var fallbackData = new List<CoinPriceDto>();
-            
-            foreach (var coinId in coinIds)
-            {
-                fallbackData.Add(new CoinPriceDto
-                {
-                    Id = coinId,
-                    Symbol = coinId.ToUpper(),
-                    Name = coinId,
-                    CurrentPrice = 0, // Will show as "Loading..." in frontend
-                    PriceChange24h = 0,
-                    PriceChangePercentage24h = 0,
-                    Image = GetCoinImageUrl(coinId)
-                });
-            }
-            
-            return fallbackData;
-        }
 
         private class CoinGeckoResponse
         {
@@ -209,4 +129,3 @@ namespace CryptoBackend.Services
         }
     }
 }
-

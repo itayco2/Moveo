@@ -64,7 +64,7 @@ namespace CryptoBackend.Controllers
 
                 // Get user preferences (use defaults if onboarding not completed)
                 var interestedCryptos = new List<string> { "bitcoin", "ethereum" };
-                var preferredContentTypes = new List<string> { "Market News", "Charts" };
+                var preferredContentTypes = new List<string> { "market_news", "price_charts" };
                 var investorType = "HODLer";
 
                 if (user.IsOnboardingCompleted && user.UserPreferences != null)
@@ -185,12 +185,8 @@ namespace CryptoBackend.Controllers
                 // Map display names to CoinGecko API IDs
                 var coinGeckoIds = interestedCryptos.Select(MapDisplayNameToCoinGeckoId).Where(id => !string.IsNullOrEmpty(id)).ToList();
                 
-                _logger.LogInformation($"Getting prices for coins: {string.Join(", ", coinGeckoIds)}");
-                
                 // Get prices for user's selected coins
                 var prices = await _coinGeckoService.GetCoinPricesAsync(coinGeckoIds);
-                
-                _logger.LogInformation($"Retrieved {prices.Count} coin prices");
                 
                 // Add user feedback to price items
                 foreach (var price in prices)
@@ -203,7 +199,6 @@ namespace CryptoBackend.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting price content");
                 response.Prices = new List<CoinPriceDto>();
             }
         }
