@@ -48,6 +48,9 @@ namespace CryptoBackend
                     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") 
                         ?? "Host=localhost;Database=crypto_advisor;Username=postgres;Password=password"));
 
+                // Memory Cache
+                builder.Services.AddMemoryCache();
+
                 // JWT Authentication
                 var jwtSettings = builder.Configuration.GetSection("Jwt");
                 var key = Encoding.ASCII.GetBytes(jwtSettings["Key"] ?? "your-super-secret-jwt-key-that-is-at-least-256-bits-long-for-security");
@@ -191,6 +194,9 @@ namespace CryptoBackend
             app.UseAuthorization();
                 app.MapControllers();
                 app.MapHealthChecks("/health");
+                
+                // Simple test endpoint for CORS
+                app.MapGet("/api/test", () => new { message = "CORS is working!", timestamp = DateTime.UtcNow });
 
                 // Database setup
                 using (var scope = app.Services.CreateScope())

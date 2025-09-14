@@ -130,6 +130,25 @@
         }
       }
     },
+    "/api/test": {
+      "get": {
+        "tags": [
+          "CryptoBackend"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringDateTime<>f__AnonymousType8"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Dashboard/content": {
       "get": {
         "tags": [
@@ -532,6 +551,20 @@
           "password": {
             "minLength": 6,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringDateTime<>f__AnonymousType8": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
