@@ -64,7 +64,7 @@ namespace CryptoBackend.Controllers
 
                 // Get user preferences (use defaults if onboarding not completed)
                 var interestedCryptos = new List<string> { "bitcoin", "ethereum" };
-                var preferredContentTypes = new List<string> { "market_news", "price_charts" };
+                var preferredContentTypes = new List<string> { "Market News", "Charts" };
                 var investorType = "HODLer";
 
                 if (user.IsOnboardingCompleted && user.UserPreferences != null)
