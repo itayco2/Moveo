@@ -48,9 +48,14 @@ namespace CryptoBackend
                 builder.Services.AddValidatorsFromAssemblyContaining<SignupRequestValidator>();
 
                 // Database
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                    ?? "Host=localhost;Database=crypto_advisor;Username=postgres;Password=password";
+                
+                Console.WriteLine($"Connection String: {connectionString}");
+                Console.WriteLine($"Connection String Length: {connectionString.Length}");
+                
                 builder.Services.AddDbContext<CryptoDbContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") 
-                        ?? "Host=localhost;Database=crypto_advisor;Username=postgres;Password=password"));
+                    options.UseNpgsql(connectionString));
 
                 // Memory Cache
                 builder.Services.AddMemoryCache();
