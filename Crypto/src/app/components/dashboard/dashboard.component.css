@@ -395,6 +395,23 @@
   animation: fadeInUp 1s ease-out;
 }
 
+.empty-state {
+  background: var(--bg-glass);
+  padding: 3rem 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  animation: fadeInUp 1s ease-out;
+}
+
+.empty-state p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
 .price-card {
   background: var(--bg-glass);
   padding: 2rem;

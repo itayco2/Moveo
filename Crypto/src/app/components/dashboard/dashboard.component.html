@@ -78,11 +78,11 @@
     <!-- Bottom Row (Prices + Meme) -->
     <div class="bottom-row">
       <!-- Coin Prices Section -->
-      <div class="prices-section" *ngIf="dashboardData.prices.length > 0">
+      <div class="prices-section">
         <div class="section-header">
           <h2>💰 Coin Prices</h2>
         </div>
-        <div class="prices-grid">
+        <div class="prices-grid" *ngIf="dashboardData.prices.length > 0">
           <div class="price-card" *ngFor="let coin of dashboardData.prices">
             <div class="coin-header">
               <img [src]="coin.image || 'https://ui-avatars.com/api/?name=' + coin.symbol + '&size=40&background=1a1a1a&color=ffffff'" [alt]="coin.name" class="coin-image" (error)="onImageError($event, coin.symbol)">
@@ -112,6 +112,9 @@
               </button>
             </div>
           </div>
+        </div>
+        <div class="empty-state" *ngIf="dashboardData.prices.length === 0">
+          <p>📊 Coin prices are temporarily unavailable. Please try refreshing in a moment.</p>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 using CryptoBackend.Models.DTOs;
+using Microsoft.Extensions.Caching.Memory;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -7,94 +8,92 @@ namespace CryptoBackend.Services
     public class CoinGeckoService : ICoinGeckoService
     {
         private readonly HttpClient _httpClient;
+        private readonly IMemoryCache _cache;
         private const string BASE_URL = "https://api.coingecko.com/api/v3";
 
-        public CoinGeckoService(HttpClient httpClient)
+        public CoinGeckoService(HttpClient httpClient, IMemoryCache cache)
         {
             _httpClient = httpClient;
+            _cache = cache;
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "CryptoAdvisor/1.0");
         }
 
         public async Task<List<CoinPriceDto>> GetCoinPricesAsync(List<string> coinIds)
         {
+            // Create a cache key for this set of coins
+            var cacheKey = $"CoinPrices:{string.Join(",", coinIds)}";
+            if (_cache.TryGetValue(cacheKey, out List<CoinPriceDto> cachedPrices))
+                return cachedPrices;
+
             try
             {
                 var idsParam = string.Join(",", coinIds);
                 var url = $"{BASE_URL}/coins/markets?vs_currency=usd&ids={idsParam}&order=market_cap_desc&per_page=10&page=1";
-                
+
                 var response = await _httpClient.GetAsync(url);
-                
                 if (!response.IsSuccessStatusCode)
-                {
-                    return new List<CoinPriceDto>();
-                }
+                    return cachedPrices ?? new List<CoinPriceDto>();
 
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var coinData = JsonSerializer.Deserialize<List<CoinGeckoResponse>>(jsonString);
 
-                return coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
+                var prices = coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
+
+                // Cache for 60 seconds to avoid hitting API limits
+                _cache.Set(cacheKey, prices, TimeSpan.FromSeconds(60));
+
+                return prices;
             }
-            catch (Exception)
+            catch
             {
-                return new List<CoinPriceDto>();
+                return cachedPrices ?? new List<CoinPriceDto>();
             }
         }
 
         public async Task<List<CoinPriceDto>> GetTopCoinPricesAsync(int limit = 10)
         {
+            // Create a cache key for top coins
+            var cacheKey = $"TopCoinPrices:{limit}";
+            if (_cache.TryGetValue(cacheKey, out List<CoinPriceDto> cachedPrices))
+                return cachedPrices;
+
             try
             {
-                // Use the /coins/markets endpoint for full data including 24h change
                 var response = await _httpClient.GetAsync($"{BASE_URL}/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,cardano&order=market_cap_desc&per_page={limit}&page=1");
                 
                 if (!response.IsSuccessStatusCode)
-                {
-                    return new List<CoinPriceDto>();
-                }
+                    return cachedPrices ?? new List<CoinPriceDto>();
 
                 var jsonString = await response.Content.ReadAsStringAsync();
                 var coinData = JsonSerializer.Deserialize<List<CoinGeckoResponse>>(jsonString);
 
-                return coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
+                var prices = coinData?.Select(MapToCoinPriceDto).ToList() ?? new List<CoinPriceDto>();
+
+                // Cache for 60 seconds to avoid hitting API limits
+                _cache.Set(cacheKey, prices, TimeSpan.FromSeconds(60));
+
+                return prices;
             }
-            catch (Exception)
+            catch
             {
-                return new List<CoinPriceDto>();
+                return cachedPrices ?? new List<CoinPriceDto>();
             }
         }
 
-        private static CoinPriceDto MapToCoinPriceDto(CoinGeckoResponse coin)
+        // MapToCoinPriceDto method remains the same
+        private static CoinPriceDto MapToCoinPriceDto(CoinGeckoResponse coin) => new CoinPriceDto
         {
-            return new CoinPriceDto
-            {
-                Id = coin.Id,
-                Symbol = coin.Symbol.ToUpper(),
-                Name = coin.Name, // Use API name directly - no conversion needed
-                CurrentPrice = coin.CurrentPrice,
-                PriceChange24h = coin.PriceChange24h,
-                PriceChangePercentage24h = coin.PriceChangePercentage24h,
-                Image = coin.Image ?? GetCoinImageUrl(coin.Id)
-            };
-        }
-
-        private static CoinPriceDto MapSimplePriceToCoinPriceDto(string coinId, SimplePriceResponse price)
-        {
-            return new CoinPriceDto
-            {
-                Id = coinId,
-                Symbol = coinId.ToUpper(),
-                Name = coinId, // Use coinId directly - no conversion needed
-                CurrentPrice = price.Usd,
-                PriceChange24h = 0, 
-                PriceChangePercentage24h = price.Usd24HChange ?? 0,
-                Image = GetCoinImageUrl(coinId)
-            };
-        }
-
+            Id = coin.Id,
+            Symbol = coin.Symbol.ToUpper(),
+            Name = coin.Name,
+            CurrentPrice = coin.CurrentPrice,
+            PriceChange24h = coin.PriceChange24h,
+            PriceChangePercentage24h = coin.PriceChangePercentage24h,
+            Image = string.IsNullOrEmpty(coin.Image) ? GetCoinImageUrl(coin.Id) : coin.Image
+        };
 
         private static string GetCoinImageUrl(string coinId)
         {
-            // Generate placeholder for any coin that doesn't have an API image
             return $"https://ui-avatars.com/api/?name={coinId}&size=40&background=1a1a1a&color=ffffff";
         }
 
@@ -120,12 +119,6 @@ namespace CryptoBackend.Services
             
             [JsonPropertyName("image")]
             public string Image { get; set; } = string.Empty;
-        }
-
-        private class SimplePriceResponse
-        {
-            public decimal Usd { get; set; }
-            public decimal? Usd24HChange { get; set; }
         }
     }
 }
