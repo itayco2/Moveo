@@ -10,3 +10,4 @@ dotnet tool install --global dotnet-ef --version 9.0.0
 dotnet ef database update --connection "$ConnectionStrings__DefaultConnection"
 
 echo "Migrations completed!"
+

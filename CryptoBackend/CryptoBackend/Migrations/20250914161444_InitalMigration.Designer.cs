@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CryptoBackend.Migrations
 {
     [DbContext(typeof(CryptoDbContext))]
-    [Migration("20250914155426_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250914161444_InitalMigration")]
+    partial class InitalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
