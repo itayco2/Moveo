@@ -1,17 +1,9 @@
 [build]
   base = "Crypto"
-  command = "npm run build"
+  command = "npx ng build --configuration production"
   publish = "dist/Crypto/browser"
-
-[build.environment]
-  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[dev]
-  command = "ng serve"
-  port = 4200
-  publish = "dist/Crypto/browser"

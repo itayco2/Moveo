@@ -13,8 +13,8 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage = '';
-  isLoading = false;
+  errorMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -29,8 +29,8 @@ export class LoginComponent {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.isLoading = true;
       this.errorMessage = '';
+      this.isLoading = true;
       
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
@@ -43,7 +43,13 @@ export class LoginComponent {
         },
         error: (error) => {
           this.isLoading = false;
-          this.errorMessage = error.error?.message || 'Invalid email or password. Please try again.';
+          if (error.status === 400) {
+            this.errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+          } else if (error.status === 500) {
+            this.errorMessage = 'Server error. Please try again later.';
+          } else {
+            this.errorMessage = 'Login failed. Please try again.';
+          }
         }
       });
     }

@@ -55,17 +55,13 @@
         </div>
       </div>
 
-      <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
-      </div>
 
       <button
         type="submit"
         class="btn-primary"
-        [disabled]="!isFormValid() || isLoading"
+        [disabled]="!isFormValid()"
       >
-        <span *ngIf="isLoading">Setting up your dashboard...</span>
-        <span *ngIf="!isLoading">Complete Setup</span>
+        Complete Setup
       </button>
     </form>
   </div>

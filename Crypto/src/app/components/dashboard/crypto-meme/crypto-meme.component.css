@@ -1,0 +1,91 @@
+.meme-section {
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.meme-card {
+  background: var(--bg-glass);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.meme-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-crypto);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.meme-card:hover::before {
+  height: 4px;
+}
+
+.meme-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.meme-image {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.meme-image:hover {
+  transform: scale(1.05);
+}
+
+.meme-card h3 {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.feedback-buttons {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.feedback-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.feedback-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.feedback-btn.active {
+  background: var(--gradient-crypto);
+  color: white;
+  border-color: transparent;
+}
+
+.feedback-btn.active::before {
+  display: none;
+}

@@ -1,0 +1,41 @@
+<div class="prices-section" *ngIf="prices.length > 0">
+  <div class="section-header">
+    <h2>💰 Coin Prices</h2>
+  </div>
+  <div class="prices-grid">
+    <div class="price-card" *ngFor="let coin of prices">
+      <div class="coin-header">
+        <img [src]="coin.image || 'https://ui-avatars.com/api/?name=' + coin.symbol + '&size=40&background=1a1a1a&color=ffffff'" 
+             [alt]="coin.name" 
+             class="coin-image" 
+             (error)="onImageError($event, coin.symbol)">
+        <div class="coin-info">
+          <h3>{{ coin.name }}</h3>
+          <span class="coin-symbol">{{ coin.symbol }}</span>
+        </div>
+      </div>
+      <div class="price-info">
+        <div class="current-price">${{ formatPrice(coin.currentPrice) }}</div>
+        <div class="price-change" 
+             [class.positive]="coin.priceChangePercentage24h > 0" 
+             [class.negative]="coin.priceChangePercentage24h < 0">
+          {{ coin.priceChangePercentage24h > 0 ? '+' : '' }}{{ coin.priceChangePercentage24h.toFixed(2) }}%
+        </div>
+      </div>
+      <div class="feedback-buttons">
+        <button 
+          class="feedback-btn" 
+          [class.active]="coin.userFeedback === 1"
+          (click)="onFeedbackSubmit(coin, true)">
+          👍
+        </button>
+        <button 
+          class="feedback-btn" 
+          [class.active]="coin.userFeedback === -1"
+          (click)="onFeedbackSubmit(coin, false)">
+          👎
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

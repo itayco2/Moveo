@@ -6,6 +6,11 @@
     </div>
     
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+      <!-- Error Message -->
+      <div class="error-message auth-error" role="alert" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
       <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -53,10 +58,6 @@
         <span *ngIf="isLoading">Signing In...</span>
       </button>
       <div id="login-description" class="sr-only">Sign in to access your crypto advisor dashboard</div>
-      
-      <div *ngIf="errorMessage" class="auth-error" role="alert">
-        {{ errorMessage }}
-      </div>
     </form>
 
     <div class="auth-footer">

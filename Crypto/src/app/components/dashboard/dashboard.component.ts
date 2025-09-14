@@ -3,28 +3,32 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardService } from '../../services/dashboard.service';
 import { AuthService } from '../../services/auth.service';
+import { LoadingService } from '../../services/loading.service';
 import { DashboardResponse } from '../../models/dashboard.models';
 import { User } from '../../models/auth.models';
+import { AiInsightComponent } from './ai-insight/ai-insight.component';
+import { MarketNewsComponent } from './market-news/market-news.component';
+import { CoinPricesComponent } from './coin-prices/coin-prices.component';
+import { CryptoMemeComponent } from './crypto-meme/crypto-meme.component';
+import { LoadingComponent } from '../loading/loading.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AiInsightComponent, MarketNewsComponent, CoinPricesComponent, CryptoMemeComponent, LoadingComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
   dashboardData: DashboardResponse | null = null;
-  isLoading = true;
-  errorMessage = '';
   currentUser: User | null = null;
-  showAllNews = false;
-  newsLimit = 6;
+  isLoading = false;
 
   constructor(
     private dashboardService: DashboardService,
     private authService: AuthService,
+    private loadingService: LoadingService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {
@@ -32,38 +36,35 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Subscribe to loading state
+    this.loadingService.loading$.subscribe(loading => {
+      this.isLoading = loading;
+      this.cdr.markForCheck();
+    });
+    
     this.loadDashboard();
   }
 
   loadDashboard(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
     this.dashboardService.getDashboardContent().subscribe({
       next: (data) => {
         this.dashboardData = data;
-        this.isLoading = false;
         this.cdr.markForCheck();
       },
       error: (error) => {
-        this.isLoading = false;
-        this.errorMessage = error.error?.message || 'Failed to load dashboard. Please try again.';
         this.cdr.markForCheck();
       }
     });
   }
 
-  submitFeedback(contentType: string, contentId: string, isPositive: boolean): void {
-    const feedback = { contentType, contentId, isPositive };
+  onFeedbackSubmitted(event: {contentType: string, contentId: string, isPositive: boolean}): void {
+    const feedback = { contentType: event.contentType, contentId: event.contentId, isPositive: event.isPositive };
 
     this.dashboardService.submitFeedback(feedback).subscribe({
       next: () => {
         // Update the local feedback state
-        this.updateLocalFeedback(contentType, contentId, isPositive);
+        this.updateLocalFeedback(event.contentType, event.contentId, event.isPositive);
         this.cdr.markForCheck();
-      },
-      error: (error) => {
-        // Handle error silently
       }
     });
   }
@@ -101,40 +102,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  }
-
-  formatPrice(price: number): string {
-    if (price >= 1) {
-      return price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    } else {
-      return price.toLocaleString('en-US', { minimumFractionDigits: 4, maximumFractionDigits: 6 });
-    }
-  }
-
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
-  }
-
-  onImageError(event: Event, symbol: string): void {
-    const img = event.target as HTMLImageElement;
-    img.src = `https://ui-avatars.com/api/?name=${symbol}&size=40&background=1a1a1a&color=ffffff`;
-  }
-
-  get displayedNews() {
-    if (!this.dashboardData?.news) return [];
-    return this.showAllNews ? this.dashboardData.news : this.dashboardData.news.slice(0, this.newsLimit);
-  }
-
-  get hasMoreNews(): boolean {
-    return (this.dashboardData?.news?.length ?? 0) > this.newsLimit;
-  }
-
-  toggleNewsView(): void {
-    this.showAllNews = !this.showAllNews;
-    this.cdr.markForCheck();
   }
 }

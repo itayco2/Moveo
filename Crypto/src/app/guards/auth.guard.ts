@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -8,54 +8,25 @@ import { AuthService } from '../services/auth.service';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): boolean {
-    if (this.authService.isAuthenticated()) {
-      return true;
-    }
-    
-    this.router.navigate(['/login']);
-    return false;
-  }
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-export class OnboardingGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const user = this.authService.currentUserValue;
     
+    // If not authenticated, redirect to login
     if (!user) {
       this.router.navigate(['/login']);
       return false;
     }
     
-    if (!user.isOnboardingCompleted) {
+    // Check if route requires onboarding completion
+    const requiresOnboarding = route.data['requiresOnboarding'] === true;
+    const requiresOnboardingIncomplete = route.data['requiresOnboardingIncomplete'] === true;
+    
+    if (requiresOnboarding && !user.isOnboardingCompleted) {
       this.router.navigate(['/onboarding']);
       return false;
     }
     
-    return true;
-  }
-}
-
-@Injectable({
-  providedIn: 'root'
-})
-export class OnboardingCompleteGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
-
-  canActivate(): boolean {
-    const user = this.authService.currentUserValue;
-    
-    if (!user) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-    
-    if (user.isOnboardingCompleted) {
+    if (requiresOnboardingIncomplete && user.isOnboardingCompleted) {
       this.router.navigate(['/dashboard']);
       return false;
     }

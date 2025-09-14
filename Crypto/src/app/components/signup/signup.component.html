@@ -6,6 +6,11 @@
     </div>
     
     <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="auth-form" novalidate>
+      <!-- Error Message -->
+      <div class="error-message auth-error" role="alert" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
       <div class="form-group">
         <label for="name">Full Name</label>
         <input
@@ -52,7 +57,7 @@
           formControlName="password"
           class="form-input"
           [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
-          aria-describedby="password-error password-requirements"
+          aria-describedby="password-error"
           aria-invalid="signupForm.get('password')?.invalid"
           autocomplete="new-password"
           required
@@ -60,7 +65,9 @@
         <div id="password-error" class="error-message" role="alert" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
           <span *ngIf="signupForm.get('password')?.errors?.['required']">Password is required</span>
           <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
-          <span *ngIf="signupForm.get('password')?.errors?.['noUpperCase'] || signupForm.get('password')?.errors?.['noLowerCase']">Password must contain uppercase and lowercase letters</span>
+          <span *ngIf="signupForm.get('password')?.errors?.['noUppercase']">Password must contain at least one uppercase letter</span>
+          <span *ngIf="signupForm.get('password')?.errors?.['noLowercase']">Password must contain at least one lowercase letter</span>
+          <span *ngIf="signupForm.get('password')?.errors?.['noNumber']">Password must contain at least one number</span>
         </div>
       </div>
 
@@ -73,11 +80,6 @@
         <span *ngIf="!isLoading">Create Account</span>
         <span *ngIf="isLoading">Creating Account...</span>
       </button>
-      <div id="signup-description" class="sr-only">Create a new account to access the crypto advisor dashboard</div>
-      
-      <div *ngIf="errorMessage" class="auth-error" role="alert">
-        {{ errorMessage }}
-      </div>
     </form>
 
     <div class="auth-footer">

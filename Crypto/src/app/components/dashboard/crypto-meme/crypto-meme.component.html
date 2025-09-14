@@ -1,0 +1,23 @@
+<div class="meme-section" *ngIf="meme">
+  <div class="section-header">
+    <h2>😂 Crypto Meme of the Day</h2>
+  </div>
+  <div class="meme-card">
+    <img [src]="meme.imageUrl" [alt]="meme.title" class="meme-image">
+    <h3>{{ meme.title }}</h3>
+    <div class="feedback-buttons">
+      <button 
+        class="feedback-btn" 
+        [class.active]="meme.userFeedback === 1"
+        (click)="onFeedbackSubmit(true)">
+        👍
+      </button>
+      <button 
+        class="feedback-btn" 
+        [class.active]="meme.userFeedback === -1"
+        (click)="onFeedbackSubmit(false)">
+        👎
+      </button>
+    </div>
+  </div>
+</div>

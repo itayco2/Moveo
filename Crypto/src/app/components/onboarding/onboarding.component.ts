@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Router } from '@angular/router';
 import { OnboardingService } from '../../services/onboarding.service';
 import { AuthService } from '../../services/auth.service';
+import { AVAILABLE_CRYPTOS } from '../../constants/crypto-list';
+import { INVESTOR_TYPES } from '../../constants/investor-types';
+import { CONTENT_TYPES } from '../../constants/content-types';
 
 @Component({
   selector: 'app-onboarding',
@@ -14,51 +17,12 @@ import { AuthService } from '../../services/auth.service';
 })
 export class OnboardingComponent {
   onboardingForm: FormGroup;
-  isLoading = false;
-  errorMessage = '';
   selectedCryptos: string[] = [];
   selectedContentTypes: string[] = [];
 
-  availableCryptos = [
-    { id: 'bitcoin', name: 'Bitcoin', symbol: 'BTC' },
-    { id: 'ethereum', name: 'Ethereum', symbol: 'ETH' },
-    { id: 'cardano', name: 'Cardano', symbol: 'ADA' },
-    { id: 'solana', name: 'Solana', symbol: 'SOL' },
-    { id: 'binancecoin', name: 'BNB', symbol: 'BNB' },
-    { id: 'polkadot', name: 'Polkadot', symbol: 'DOT' },
-    { id: 'chainlink', name: 'Chainlink', symbol: 'LINK' },
-    { id: 'polygon', name: 'Polygon', symbol: 'MATIC' }
-  ];
-
-  investorTypes = [
-    {
-      value: 'HODLer',
-      name: 'HODLer',
-      description: 'Long-term investor who believes in holding crypto assets'
-    },
-    {
-      value: 'Day Trader',
-      name: 'Day Trader',
-      description: 'Active trader looking for short-term opportunities'
-    },
-    {
-      value: 'NFT Collector',
-      name: 'NFT Collector',
-      description: 'Interested in digital art and collectibles'
-    },
-    {
-      value: 'DeFi Enthusiast',
-      name: 'DeFi Enthusiast',
-      description: 'Focused on decentralized finance protocols'
-    }
-  ];
-
-  contentTypes = [
-    { value: 'Market News', name: 'Market News & Analysis' },
-    { value: 'Charts', name: 'Price Charts & Data' },
-    { value: 'Social', name: 'Social Sentiment' },
-    { value: 'Fun', name: 'Memes & Community' }
-  ];
+  availableCryptos = AVAILABLE_CRYPTOS;
+  investorTypes = INVESTOR_TYPES;
+  contentTypes = CONTENT_TYPES;
 
   constructor(
     private fb: FormBuilder,
@@ -109,9 +73,6 @@ export class OnboardingComponent {
 
   onSubmit(): void {
     if (this.isFormValid()) {
-      this.isLoading = true;
-      this.errorMessage = '';
-
       const preferences = {
         interestedCryptos: this.selectedCryptos,
         investorType: this.onboardingForm.value.investorType,
@@ -120,18 +81,13 @@ export class OnboardingComponent {
 
       this.onboardingService.completeOnboarding(preferences).subscribe({
         next: async (response) => {
-          this.isLoading = false;
           // Refresh user data and wait for completion before navigating
           try {
             await this.authService.refreshCurrentUser();
             this.router.navigate(['/dashboard']);
           } catch (error) {
-            this.errorMessage = 'Failed to refresh user data. Please try again.';
+            // Error handling is done by the global error system
           }
-        },
-        error: (error) => {
-          this.isLoading = false;
-          this.errorMessage = error.error?.message || 'Setup failed. Please try again.';
         }
       });
     }
