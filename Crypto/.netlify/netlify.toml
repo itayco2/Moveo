@@ -1,5 +1,5 @@
-redirectsOrigin = "config"
 headers = []
+redirects = []
 
 [functions]
 
@@ -13,10 +13,10 @@ package = "@netlify/angular-runtime"
 
 [build]
 publish = "C:\\Users\\itay7\\Desktop\\Moveo\\Crypto\\dist\\Crypto\\browser"
-publishOrigin = "config"
-commandOrigin = "config"
+publishOrigin = "inline"
+commandOrigin = "ui"
 base = "C:\\Users\\itay7\\Desktop\\Moveo\\Crypto"
-command = "npx ng build --configuration production"
+command = "npm run build"
 
 [build.environment]
 
@@ -31,15 +31,3 @@ command = "npx ng build --configuration production"
 [build.processing.js]
 
 [build.services]
-
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200.0
-force = false
-
-[redirects.query]
-
-[redirects.conditions]
-
-[redirects.headers]
