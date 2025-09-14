@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap, catchError, throwError, finalize } from 'rxjs';
 import { AuthResponse, LoginRequest, SignupRequest, User } from '../models/auth.models';
 import { environment } from '../../environments/environment';
-import { ErrorService } from './error.service';
 import { LoadingService } from './loading.service';
 
 @Injectable({
@@ -14,7 +13,7 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient, private errorService: ErrorService, private loadingService: LoadingService) {
+  constructor(private http: HttpClient, private loadingService: LoadingService) {
     this.loadUserFromStorage();
   }
 
@@ -24,7 +23,6 @@ export class AuthService {
       .pipe(
         tap(response => this.handleAuthSuccess(response)),
         catchError(error => {
-          this.errorService.addError(this.errorService.handleHttpError(error), 'error');
           return throwError(() => error);
         }),
         finalize(() => this.loadingService.hide())
@@ -37,7 +35,6 @@ export class AuthService {
       .pipe(
         tap(response => this.handleAuthSuccess(response)),
         catchError(error => {
-          this.errorService.addError(this.errorService.handleHttpError(error), 'error');
           return throwError(() => error);
         }),
         finalize(() => this.loadingService.hide())

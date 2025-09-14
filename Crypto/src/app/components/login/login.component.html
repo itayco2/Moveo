@@ -46,12 +46,17 @@
       <button
         type="submit"
         class="btn-primary"
-        [disabled]="loginForm.invalid"
+        [disabled]="loginForm.invalid || isLoading"
         aria-describedby="login-description"
       >
-        Sign In
+        <span *ngIf="!isLoading">Sign In</span>
+        <span *ngIf="isLoading">Signing In...</span>
       </button>
       <div id="login-description" class="sr-only">Sign in to access your crypto advisor dashboard</div>
+      
+      <div *ngIf="errorMessage" class="auth-error" role="alert">
+        {{ errorMessage }}
+      </div>
     </form>
 
     <div class="auth-footer">

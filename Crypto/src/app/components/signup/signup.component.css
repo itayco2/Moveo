@@ -148,6 +148,19 @@
   font-size: 1rem;
 }
 
+
+.auth-error {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid var(--crypto-red);
+  border-radius: var(--radius-sm);
+  color: var(--crypto-red);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+
 .btn-primary {
   width: 100%;
   padding: 1rem 2rem;

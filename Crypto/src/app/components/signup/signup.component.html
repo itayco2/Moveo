@@ -52,7 +52,7 @@
           formControlName="password"
           class="form-input"
           [class.error]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
-          aria-describedby="password-error"
+          aria-describedby="password-error password-requirements"
           aria-invalid="signupForm.get('password')?.invalid"
           autocomplete="new-password"
           required
@@ -60,18 +60,24 @@
         <div id="password-error" class="error-message" role="alert" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
           <span *ngIf="signupForm.get('password')?.errors?.['required']">Password is required</span>
           <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters</span>
+          <span *ngIf="signupForm.get('password')?.errors?.['noUpperCase'] || signupForm.get('password')?.errors?.['noLowerCase']">Password must contain uppercase and lowercase letters</span>
         </div>
       </div>
 
       <button
         type="submit"
         class="btn-primary"
-        [disabled]="signupForm.invalid"
+        [disabled]="signupForm.invalid || isLoading"
         aria-describedby="signup-description"
       >
-        Create Account
+        <span *ngIf="!isLoading">Create Account</span>
+        <span *ngIf="isLoading">Creating Account...</span>
       </button>
       <div id="signup-description" class="sr-only">Create a new account to access the crypto advisor dashboard</div>
+      
+      <div *ngIf="errorMessage" class="auth-error" role="alert">
+        {{ errorMessage }}
+      </div>
     </form>
 
     <div class="auth-footer">
