@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CryptoBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+897f134b33a7ce6af31bb422ea262d633c686bf5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+faadfca77e74a514527c167253f5e3142b3a9989")]
 [assembly: System.Reflection.AssemblyProductAttribute("CryptoBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CryptoBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

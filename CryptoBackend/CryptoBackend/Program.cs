@@ -48,11 +48,38 @@ namespace CryptoBackend
                 builder.Services.AddValidatorsFromAssemblyContaining<SignupRequestValidator>();
 
                 // Database
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                    ?? "Host=localhost;Database=crypto_advisor;Username=postgres;Password=password";
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
                 
-                Console.WriteLine($"Connection String: {connectionString}");
-                Console.WriteLine($"Connection String Length: {connectionString.Length}");
+                // Debug: Check all possible environment variables
+                Console.WriteLine($"Environment Variables:");
+                Console.WriteLine($"DATABASE_URL: {Environment.GetEnvironmentVariable("DATABASE_URL")}");
+                Console.WriteLine($"ConnectionStrings__DefaultConnection: {Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")}");
+                Console.WriteLine($"DefaultConnection from config: {connectionString}");
+                
+                // If no connection string found, try to parse DATABASE_URL
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+                    if (!string.IsNullOrEmpty(databaseUrl))
+                    {
+                        // Parse PostgreSQL URL format to Npgsql format
+                        var uri = new Uri(databaseUrl);
+                        var userInfo = uri.UserInfo.Split(':');
+                        var username = userInfo[0];
+                        var password = userInfo.Length > 1 ? userInfo[1] : "";
+                        
+                        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.LocalPath.TrimStart('/')};Username={username};Password={password};Ssl Mode=Require;";
+                        Console.WriteLine($"Parsed connection string from DATABASE_URL: {connectionString}");
+                    }
+                    else
+                    {
+                        connectionString = "Host=localhost;Database=crypto_advisor;Username=postgres;Password=password";
+                        Console.WriteLine("Using default localhost connection string");
+                    }
+                }
+                
+                Console.WriteLine($"Final Connection String: {connectionString}");
+                Console.WriteLine($"Final Connection String Length: {connectionString.Length}");
                 
                 builder.Services.AddDbContext<CryptoDbContext>(options =>
                     options.UseNpgsql(connectionString));
